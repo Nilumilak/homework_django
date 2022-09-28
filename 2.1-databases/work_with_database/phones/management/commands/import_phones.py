@@ -17,7 +17,8 @@ class Command(BaseCommand):
                 name=phone['name'],
                 price=phone['price'],
                 image=phone['image'],
-                release_date=phone['release_date'])
+                release_date=phone['release_date'],
+                slug='-'.join(phone['name'].lower().split()))
 
 
 if __name__ == '__main__':
