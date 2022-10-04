@@ -1,5 +1,4 @@
 from django.db import models
-from django.db.models.functions import Length
 
 
 class Tag(models.Model):
@@ -19,7 +18,7 @@ class Article(models.Model):
     text = models.TextField(verbose_name='Текст')
     published_at = models.DateTimeField(verbose_name='Дата публикации')
     image = models.ImageField(null=True, blank=True, verbose_name='Изображение',)
-    fields = models.ManyToManyField(Tag, through='Scope', through_fields=['article', 'tag'])
+    fields = models.ManyToManyField(Tag, through='Scope')
 
     class Meta:
         verbose_name = 'Статья'

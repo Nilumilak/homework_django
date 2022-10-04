@@ -21,7 +21,6 @@ class ArticleScopeInline(admin.TabularInline):
 
 @admin.register(Article)
 class ArticleAdmin(admin.ModelAdmin):
-    list_display = ['title']
     inlines = [ArticleScopeInline, ]
 
 
