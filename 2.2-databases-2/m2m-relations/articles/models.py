@@ -1,10 +1,12 @@
 from django.db import models
+from django.db.models import F
 
 
 class Tag(models.Model):
     name = models.CharField(max_length=255, unique=True, verbose_name='Название')
 
     class Meta:
+        ordering = ['name']
         verbose_name = 'Раздел'
         verbose_name_plural = 'Разделы'
 
@@ -34,6 +36,6 @@ class Scope(models.Model):
     is_main = models.BooleanField()
 
     class Meta:
-        ordering = ['-is_main', '-tag']
+        ordering = ['-is_main', F('tag').name]
         verbose_name = 'Раздел'
         verbose_name_plural = 'Разделы'
