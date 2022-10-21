@@ -21,7 +21,7 @@ DATA = {
 def recipe(request, dish):
     dishes = DATA.get(dish)
     servings = request.GET.get('servings')
-    if dishes and servings:
+    if dishes and servings and servings.isdigit():
         dishes = {item: quantity * int(servings) for item, quantity in dishes.items()}
     context = {
         'recipe': dishes
