@@ -46,13 +46,8 @@ POST {{baseUrl}}/stocks/
 Content-Type: application/json
 
 {
-  "address": "12мой gадрес не дом и не улица, мой адрес сегодня такой: www.ленинград-спб.ru3",
+  "address": "1243мой gадрес не дом и не улица, мой адрес сегодня такой: www.ленинград-спб.ru3",
   "positions": [
-    {
-      "product": 2,
-      "quantity": 250,
-      "price": 120.50
-    },
     {
       "product": 3,
       "quantity": 100,
