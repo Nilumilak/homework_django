@@ -5,6 +5,7 @@
 # получение объявлений
 GET {{baseUrl}}/advertisements/
 Content-Type: application/json
+Authorization: Token d82e0a2e70938d9f33116f9c522080a4bc846aff
 
 ###
 
@@ -21,12 +22,12 @@ Authorization: Token d82e0a2e70938d9f33116f9c522080a4bc846aff
 ###
 
 # попытка поменять объявление
-PATCH {{baseUrl}}/advertisements/22/
+PATCH {{baseUrl}}/advertisements/9/
 Content-Type: application/json
 Authorization: Token d82e0a2e70938d9f33116f9c522080a4bc846aff
 
 {
-  "status": "CLOSED"
+  "status": "DRAFT"
 }
 
 ###

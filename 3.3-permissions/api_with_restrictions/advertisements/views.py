@@ -15,9 +15,16 @@ from django.core.exceptions import ObjectDoesNotExist
 
 class AdvertisementViewSet(ModelViewSet):
     """ViewSet для объявлений."""
-    queryset = Advertisement.objects.all()
+    queryset = Advertisement.objects.exclude(status='DRAFT')
     serializer_class = AdvertisementSerializer
     filterset_class = AdvertisementFilter
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        if not isinstance(self.request.user, AnonymousUser):
+            drafts = Advertisement.objects.filter(creator=self.request.user, status='DRAFT')
+            queryset |= drafts
+        return queryset
 
     def get_permissions(self):
         """Получение прав для действий."""
