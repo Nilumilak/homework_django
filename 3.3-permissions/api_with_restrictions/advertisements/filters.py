@@ -1,12 +1,14 @@
 from django_filters import rest_framework as filters
 
 from advertisements.models import Advertisement
+from django_filters import DateFromToRangeFilter
+from django_filters.rest_framework import DjangoFilterBackend
 
 
-class AdvertisementFilter(filters.FilterSet):
+class AdvertisementFilter(filters.FilterSet, DjangoFilterBackend):
     """Фильтры для объявлений."""
-
-    # TODO: задайте требуемые фильтры
+    created_at = DateFromToRangeFilter()
 
     class Meta:
         model = Advertisement
+        fields = ['creator', 'created_at']
