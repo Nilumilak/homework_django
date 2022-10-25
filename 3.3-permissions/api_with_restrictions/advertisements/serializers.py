@@ -2,7 +2,7 @@ from django.contrib.auth.models import User
 from rest_framework.response import Response
 from rest_framework import serializers
 
-from advertisements.models import Advertisement
+from advertisements.models import Advertisement, Favorites
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -38,3 +38,12 @@ class AdvertisementSerializer(serializers.ModelSerializer):
             return Response({'error': 'Cannot have more than 10 active advertisements'})
 
         return data
+
+
+class FavoritesSerializer(serializers.ModelSerializer):
+    favorite_id = AdvertisementSerializer(read_only=True)
+
+    class Meta:
+        model = Favorites
+        fields = ['favorite_id']
+        read_only_fields = ['user']

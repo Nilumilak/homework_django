@@ -8,12 +8,9 @@ class IsOwnerOrReadOnly(BasePermission):
     """
     def has_object_permission(self, request, view, obj):
         if request.method in SAFE_METHODS:
-            print(request.user.is_staff, '111111111111111111')
             return True
 
         if request.user.is_staff:
-            print(request.user.is_staff, '22222222222222222222')
             return True
 
-        print(request.user.is_staff, '3333333333333333333333')
         return obj.creator == request.user

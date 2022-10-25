@@ -11,7 +11,7 @@ Content-Type: application/json
 # создание объявления
 POST {{baseUrl}}/advertisements/
 Content-Type: application/json
-Authorization: Token 906743a40ef28ce9883a701c893db24e092760f9
+Authorization: Token d82e0a2e70938d9f33116f9c522080a4bc846aff
 
 {
   "title": "Шкаф IKEA",
@@ -21,9 +21,9 @@ Authorization: Token 906743a40ef28ce9883a701c893db24e092760f9
 ###
 
 # попытка поменять объявление
-PATCH {{baseUrl}}/advertisements/1/
+PATCH {{baseUrl}}/advertisements/22/
 Content-Type: application/json
-Authorization: Token 906743a40ef28ce9883a701c893db24e092760f9
+Authorization: Token d82e0a2e70938d9f33116f9c522080a4bc846aff
 
 {
   "status": "CLOSED"
@@ -47,3 +47,22 @@ Content-Type: application/json
 # фильтрация по дате
 GET {{baseUrl}}/advertisements/?created_at_before=2022-10-01
 Content-Type: application/json
+
+###
+
+# просмотреть список избранных
+GET {{baseUrl}}/advertisements/favorites/
+Content-Type: application/json
+Authorization: Token 906743a40ef28ce9883a701c893db24e092760f9
+
+###
+
+# добавить в избранное
+POST {{baseUrl}}/advertisements/favorites/
+Content-Type: application/json
+Authorization: Token 906743a40ef28ce9883a701c893db24e092760f9
+
+{
+  "favorite_id": "23"
+}
+###
