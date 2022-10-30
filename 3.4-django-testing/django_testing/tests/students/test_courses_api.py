@@ -1,5 +1,4 @@
 import pytest
-from django.contrib.auth.models import User
 from django.urls import reverse
 from rest_framework.test import APIClient
 from model_bakery import baker
@@ -7,14 +6,9 @@ from model_bakery import baker
 from students.models import Course, Student
 
 
-@pytest.fixture
+@pytest.fixture(scope='session')
 def client():
     return APIClient()
-
-
-@pytest.fixture
-def user():
-    return User.objects.create_user('admin')
 
 
 @pytest.fixture
