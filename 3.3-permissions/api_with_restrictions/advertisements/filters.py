@@ -11,4 +11,4 @@ class AdvertisementFilter(filters.FilterSet, DjangoFilterBackend):
 
     class Meta:
         model = Advertisement
-        fields = ['creator', 'created_at']
+        fields = ['status', 'creator', 'created_at']

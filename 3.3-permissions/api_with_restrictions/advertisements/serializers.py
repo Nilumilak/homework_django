@@ -1,5 +1,4 @@
 from django.contrib.auth.models import User
-from rest_framework.response import Response
 from rest_framework import serializers
 
 from advertisements.models import Advertisement, Favorites
@@ -34,8 +33,10 @@ class AdvertisementSerializer(serializers.ModelSerializer):
 
     def validate(self, data):
         """Метод для валидации. Вызывается при создании и обновлении."""
-        if Advertisement.objects.filter(creator=self.context["request"].user).count() >= 10:
-            return Response({'error': 'Cannot have more than 10 active advertisements'})
+        if ((self.context['request'].method == 'PATCH' and data.get('status') == 'OPEN') or
+            (self.context['request'].method == 'POST')):
+            if Advertisement.objects.filter(creator=self.context["request"].user, status="OPEN").count() >= 10:
+                raise serializers.ValidationError('Cannot have more than 10 active advertisements')
 
         return data
 

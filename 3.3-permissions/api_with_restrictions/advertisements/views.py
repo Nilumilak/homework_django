@@ -2,8 +2,6 @@ from rest_framework.viewsets import ModelViewSet
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.decorators import action
 from rest_framework.response import Response
-from django.contrib.auth.models import AnonymousUser
-from django.db.utils import IntegrityError
 
 from .filters import AdvertisementFilter
 from .models import Advertisement, Favorites
@@ -21,7 +19,7 @@ class AdvertisementViewSet(ModelViewSet):
 
     def get_queryset(self):
         queryset = super().get_queryset()
-        if not isinstance(self.request.user, AnonymousUser):
+        if not self.request.user.is_anonymous:
             drafts = Advertisement.objects.filter(creator=self.request.user, status='DRAFT')
             queryset |= drafts
         return queryset
@@ -34,12 +32,12 @@ class AdvertisementViewSet(ModelViewSet):
 
     @action(methods=['get', 'post'], detail=False)
     def favorites(self, request):
-        user = self.request.user
-        if isinstance(user, AnonymousUser):
+
+        if self.request.user.is_anonymous:
             return Response({'error': 'You are not authorized'})
 
         if request.method == 'GET':
-            favorites = Favorites.objects.filter(user=user)
+            favorites = Favorites.objects.filter(user=self.request.user)
             serializer = FavoritesSerializer(favorites, many=True)
             return Response(serializer.data)
 
@@ -51,10 +49,10 @@ class AdvertisementViewSet(ModelViewSet):
             if favorite.creator == self.request.user:
                 return Response({'error': 'you cannot add your advertisement to favorites'})
             else:
-                try:
+                if Favorites.objects.filter(user=self.request.user, favorite_id=favorite).exists():
+                    return Response({'error': 'Advertisement is already added'})
+                else:
                     added_favorite = Favorites.objects.create(user=self.request.user,
                                                               favorite_id=favorite)
                     serializer = FavoritesSerializer([added_favorite], many=True)
                     return Response(serializer.data)
-                except IntegrityError:
-                    return Response({'error': 'Advertisement is already added'})
