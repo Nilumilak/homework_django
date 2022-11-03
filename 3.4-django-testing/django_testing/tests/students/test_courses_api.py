@@ -27,6 +27,12 @@ def student_factory():
     return factory
 
 
+@pytest.fixture
+def test_with_specific_settings(settings):
+    settings.MAX_STUDENTS_PER_COURSE = 1
+    assert settings.MAX_STUDENTS_PER_COURSE
+
+
 @pytest.mark.django_db
 def test_get_courses(client, course_factory):
     courses = course_factory(_quantity=5)
@@ -82,3 +88,17 @@ def test_delete_course(client, course_factory):
     assert respond.status_code == 204
     respond = client.get(url)
     assert respond.status_code == 404
+
+
+@pytest.mark.django_db
+def test_check_students_quantity(client, course_factory, student_factory, test_with_specific_settings):
+    course = course_factory()
+    students = student_factory(_quantity=2)
+    url = reverse('course_students-list')
+    for num, student in enumerate(students, start=1):
+        response = client.post(url, data={'course': course.pk, 'student': student.pk})
+        if len(students) > num:
+            assert response.status_code == 201
+        else:
+            assert response.status_code == 400
+            assert response.json() == {"non_field_errors": ["Cannot have more than 20 students on course"]}

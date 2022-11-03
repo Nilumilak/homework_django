@@ -2,8 +2,8 @@ from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.viewsets import ModelViewSet
 
 from students.filters import CourseFilter
-from students.models import Course, Student
-from students.serializers import CourseSerializer, StudentSerializer
+from students.models import Course, Student, CourseStudents
+from students.serializers import CourseSerializer, StudentSerializer, CourseStudentsSerializer
 
 
 class CoursesViewSet(ModelViewSet):
@@ -16,3 +16,8 @@ class CoursesViewSet(ModelViewSet):
 class StudentsViewSet(ModelViewSet):
     queryset = Student.objects.all()
     serializer_class = StudentSerializer
+
+
+class CourseStudentsViewSet(ModelViewSet):
+    queryset = CourseStudents.objects.all()
+    serializer_class = CourseStudentsSerializer
